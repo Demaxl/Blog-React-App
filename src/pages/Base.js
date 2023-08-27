@@ -23,7 +23,7 @@ function Base() {
         <>
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Blog</a>
+                    <Link to="/" className="navbar-brand">Blog</Link>
                     <a className="navbar-brand navbar-toggler" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                         <img src={defaultImage} alt="User Image" width={40} className="rounded-pill" />
                     </a>

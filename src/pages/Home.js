@@ -1,7 +1,12 @@
-
+import { useFetch } from "../hooks";
 
 function Home() {
-    return <h1 className="display-1">This is the homepage</h1>
+    const data = useFetch("asd");
+
+
+    return (
+        <h1 className="display-1">{data}</h1>
+        )
 }
 
 
