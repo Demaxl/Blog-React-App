@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route  } from "react-router-dom";
 import $ from 'jquery';
 import Base from './pages/Base';
-import Home from './pages/Home';
+import Home  from './pages/Home.js';
 
 function App() {
 	return (

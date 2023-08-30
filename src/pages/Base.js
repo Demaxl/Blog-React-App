@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { Outlet, Link } from "react-router-dom";
 import defaultImage from '../img/default.jpg'
+
 
 
 function Base() {
@@ -21,28 +22,28 @@ function Base() {
 
     return (
         <>
-            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-                <div class="container-fluid">
+            <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
+                <div className="container-fluid">
                     <Link to="/" className="navbar-brand">Blog</Link>
                     <a className="navbar-brand navbar-toggler" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                         <img src={defaultImage} alt="User Image" width={40} className="rounded-pill" />
                     </a>
                     
-                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                        <ul class="navbar-nav ms-auto me-5">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                    <div className="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul className="navbar-nav ms-auto me-5">
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Link</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Link</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Link</a>
                             </li>
 
                             {window.innerWidth > 576 && 
-                                <li class="nav-item">
-                                    <a class="nav-link navbar-brand" href="#">
+                                <li className="nav-item">
+                                    <a className="nav-link navbar-brand" href="#">
                                         <img src={defaultImage} alt="User Image" className="rounded-pill" width={40}/>
                                     </a>
                                 </li>}
@@ -58,4 +59,4 @@ function Base() {
 }
 
 
-export default Base;
+export default memo(Base);
