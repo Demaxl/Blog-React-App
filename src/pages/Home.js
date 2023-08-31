@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 
 import '../css/styles.css'
+import articleImage from "../img/article.jpg"
 
 
 const getCurrentPage = () => {
@@ -14,9 +15,13 @@ const getCurrentPage = () => {
 
 function Post(props) {
     return (
-        <div>
-            <h1 className="post-heading">{props.title}</h1>
-            <p>{props.body}</p>
+        <div className="col-md-4 d-flex">
+            <div class="card mb-3 me-3 flex-fill" style={{width:"400px"}}>
+                <img src={articleImage} alt="Blog Image"/>
+                <div class="card-body">
+                    <h4 class="card-title post-heading">{props.title}</h4>
+                </div>
+            </div>
         </div>
     )
 }
@@ -55,11 +60,9 @@ function Home() {
 
 
     return (
-            <div className="container">
-                <div className="row">
-                    <div className="col">
+            <div className="container my-5">
+                <div className="row">    
                         {subset.map(post => <Post key={post.id} title={post.title} body={post.body} />)}
-                    </div>
                 </div>
                 
                 <div className="row">
@@ -74,7 +77,7 @@ function Home() {
                         previousLabel={"<<"}
                         nextLabel={">>"}
                         breakLabel={"..."}
-                        containerClassName={"pagination pagination-lg justify-content-center"}
+                        containerClassName={"pagination pagination-lg justify-content-center flex-wrap"}
                         activeClassName={"active bg-dark"}
                         activeLinkClassName="bg-dark text-white"
                         pageClassName="page-item"
