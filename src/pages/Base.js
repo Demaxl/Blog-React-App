@@ -1,11 +1,17 @@
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, memo, useContext, createContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import defaultImage from '../img/default.jpg'
 
+import { useNavigate } from "react-router-dom";
 
+
+
+const navigatorContext = createContext()
 
 function Base() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -52,11 +58,13 @@ function Base() {
                     
                 </div>
             </nav>
-
-            <Outlet />
+            
+            <navigatorContext.Provider value={navigate}>
+                <Outlet />
+            </navigatorContext.Provider>
         </>
     )
 }
 
-
+export { navigatorContext };
 export default memo(Base);

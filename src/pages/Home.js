@@ -1,10 +1,10 @@
 import { useFetch, Spinner } from "../utils";
-import { useEffect, useMemo, useRef, useState, memo } from "react";
+import { useEffect, useMemo, useRef, useState, memo, useContext } from "react";
 import ReactPaginate from "react-paginate";
-import { useNavigate } from "react-router-dom";
 
 import '../css/styles.css'
 import articleImage from "../img/article.jpg"
+import { navigatorContext } from "./Base"
 
 
 const getCurrentPage = () => {
@@ -14,12 +14,13 @@ const getCurrentPage = () => {
 
 
 function Post(props) {
+    const navigate = useContext(navigatorContext)
     return (
-        <div className="col-md-4 d-flex">
-            <div class="card mb-3 me-3 flex-fill" style={{width:"400px"}}>
+        <div className="col-md-4 d-flex" onClick={(e) => navigate(`/posts/${props.id}`)}>
+            <div className="card mb-3 me-3 flex-fill" style={{width:"400px"}}>
                 <img src={articleImage} alt="Blog Image"/>
-                <div class="card-body">
-                    <h4 class="card-title post-heading">{props.title}</h4>
+                <div className="card-body">
+                    <h4 className="card-title post-heading">{props.title}</h4>
                 </div>
             </div>
         </div>
@@ -29,7 +30,6 @@ function Post(props) {
 
 function Home() {
     const data = useFetch("https://jsonplaceholder.typicode.com/posts");
-    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(getCurrentPage() || 0);
     const itemsPerPage = 10 
 
@@ -37,24 +37,38 @@ function Home() {
         if (data) return Math.ceil(data.length / itemsPerPage) 
     }, [data])
 
+    useEffect(() => {
+        const handleHistory = (event) => {
+            console.log(event.state.page);
+            setCurrentPage(event.state.page)
+        }
+
+        window.addEventListener("onpopstate", handleHistory)
+
+        return () => {
+            window.removeEventListener('onpopstate', handleHistory);
+        };
+
+    }, [])
 
 
     if (data == null) {
         return <Spinner/>
     }
 
-    // totalPages.current = Math.ceil(data.length / itemsPerPage)
-    if (currentPage > totalPages) {
+    if (currentPage >= totalPages) {
         setCurrentPage(totalPages - 1)
+        window.history.replaceState(null, '', `/?page=${totalPages}`);
+
     }
     
-    window.history.replaceState(null, '', `/?page=${currentPage + 1}`);
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const subset = data.slice(startIndex, endIndex);
 
     const handlePageChange = (selectedPage) => {
+        window.history.pushState({ page: selectedPage.selected }, "", `?page=${selectedPage.selected + 1}`)
         setCurrentPage(selectedPage.selected);
     };
 
@@ -62,7 +76,7 @@ function Home() {
     return (
             <div className="container my-5">
                 <div className="row">    
-                        {subset.map(post => <Post key={post.id} title={post.title} body={post.body} />)}
+                        {subset.map(post => <Post id={post.id} key={post.id} title={post.title} body={post.body}/>)}
                 </div>
                 
                 <div className="row">
@@ -86,7 +100,6 @@ function Home() {
                         nextClassName="page-item"
                         previousLinkClassName="page-link"
                         nextLinkClassName="page-link"
-
                     />
             
                 </div>
