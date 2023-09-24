@@ -1,31 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route  } from "react-router-dom";
-import $ from 'jquery';
-import Base from './pages/Base';
-import Home  from './pages/home.js';
-import Post from './pages/posts';
+import { createBrowserRouter, RouterProvider} from "react-router-dom";
+import Root from './routes/root';
 
-function App() {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path='/' element={<Base />}>
-					<Route index element={<Home/>}/>
-					<Route path='posts/:postId' element={<Post/>} />
-					
-				</Route>
-			</Routes>
-		</BrowserRouter>
-	)
-}
+import Home, {
+	loader as homeLoader
+}  from './routes/home';
+
+import Post from './routes/posts';
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App/>);
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <Root />,
+		children: [
+			{
+				index: true,
+				element: <Home />,
+				// loader: homeLoader
+			}
+		]
+	}
+]);
 
 
-export default App;
+ReactDOM.createRoot(document.getElementById("root")).render(
+	<React.StrictMode>
+		<RouterProvider router={router} />
+	</React.StrictMode>
+);
+
+
 
 
 
