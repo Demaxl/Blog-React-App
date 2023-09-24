@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route  } from "react-router-dom";
 import $ from 'jquery';
 import Base from './pages/Base';
-import Home  from './pages/Home.js';
+import Home  from './pages/home.js';
+import Post from './pages/posts';
 
 function App() {
 	return (
@@ -11,6 +12,8 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Base />}>
 					<Route index element={<Home/>}/>
+					<Route path='posts/:postId' element={<Post/>} />
+					
 				</Route>
 			</Routes>
 		</BrowserRouter>
