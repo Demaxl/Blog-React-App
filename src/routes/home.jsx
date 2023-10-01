@@ -1,6 +1,6 @@
 import { useFetch, Spinner } from "../components";
 import { useEffect, useMemo, useRef, useState, memo, useContext } from "react";
-// import ReactPaginate from "react-paginate";
+import ReactPaginate from "react-paginate";
 import $ from 'jquery';
 import '../css/styles.css';
 import articleImage from "../img/article.jpg";
@@ -9,10 +9,7 @@ import { useLoaderData, useNavigation } from "react-router-dom";
 
 
 export async function loader() {
-    return $.ajax({
-        method: "GET",
-        url: "https://jsonplaceholder.typicode.com/posts"
-    })
+    return fetch("https://jsonplaceholder.typicode.com/posts");
 
 }
 
@@ -35,21 +32,50 @@ function Post(props) {
 export default function Home() {
     const navigation = useNavigation()
     const data = useLoaderData()
-    // const data = [
-    //     {
-    //         "userId": 1,
-    //         "id": 1,
-    //         "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    //         "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-    //     }
-    // ]
+
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 10 
+    useEffect(() => {
+        setTotalPages(Math.ceil(data.length / itemsPerPage));
+    }, []);
+
+
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const subset = data.slice(startIndex, endIndex);
+
+    const handlePageChange = (selectedPage) => {
+        setCurrentPage(selectedPage.selected);
+    };
 
     return (
-            <div className="container my-5">
-                <div className="row">    
-                        {data.map(post => <Post id={post.id} key={post.id} title={post.title} body={post.body}/>)}
+            <>
+                <div className="container my-5">
+                    <div className="row">    
+                            {subset.map(post => <Post id={post.id} key={post.id} title={post.title} body={post.body}/>)}
+                    </div>
                 </div>
-            </div>
+                
+            <div className="d-flex justify-content-center align-items-center">
+                    <ReactPaginate
+                        containerClassName="pagination pagination-lg"
+                        activeClassName="active"
+                        pageClassName="page-item"
+                        pageLinkClassName="page-link"
+                        previousClassName="page-item"
+                        nextClassName="page-item"
+                        previousLinkClassName="page-link"
+                        nextLinkClassName="page-link"
+                        previousLabel={"<<"}
+                        nextLabel={">>"}
+                        breakLabel={"..."}
+                        pageCount={totalPages-1}
+                        onPageChange={handlePageChange}
+                        forcePage={currentPage} 
+                    />
+                </div>
+            </>
         )
 }
 
