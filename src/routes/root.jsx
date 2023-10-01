@@ -1,5 +1,5 @@
 import { useState, useEffect, memo, useContext, createContext } from "react";
-import { Outlet, Link, useNavigation } from "react-router-dom";
+import { Outlet, Link, useNavigation, redirect } from "react-router-dom";
 import defaultImage from '../img/default.jpg'
 import { Spinner } from "../components";
 
@@ -55,6 +55,8 @@ function Root() {
                     
                 </div>
             </nav>
+                                
+            {console.log(navigation.state)}
             
             {navigation.state === "loading" ? <Spinner /> : <Outlet />}
             
