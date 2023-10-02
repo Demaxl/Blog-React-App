@@ -7,7 +7,9 @@ import Home, {
 	loader as homeLoader
 }  from './routes/home';
 
-import Post from './routes/posts';
+import Post, {
+	loader as postLoader
+} from './routes/posts';
 
 
 const router = createBrowserRouter([
@@ -19,6 +21,11 @@ const router = createBrowserRouter([
 				index: true,
 				element: <Home />,
 				loader: homeLoader
+			},
+			{
+				path: "posts/:postId",
+				element: <Post />,
+				loader: postLoader
 			}
 		]
 	}

@@ -55,9 +55,7 @@ function Root() {
                     
                 </div>
             </nav>
-                                
-            {console.log(navigation.state)}
-            
+                                            
             {navigation.state === "loading" ? <Spinner /> : <Outlet />}
             
         </>

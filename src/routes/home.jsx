@@ -4,7 +4,7 @@ import ReactPaginate from "react-paginate";
 import $ from 'jquery';
 import '../css/styles.css';
 import articleImage from "../img/article.jpg";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { useLoaderData, useNavigation, redirect, Link } from "react-router-dom";
 
 
 
@@ -15,14 +15,21 @@ export async function loader() {
 
 
 
-function Post(props) {
+function PostBox(props) {
     return (
         <div className="col-md-4 d-flex">
-            <div className="card mb-3 me-3 flex-fill" style={{width:"400px"}}>
-                <img src={articleImage} alt="Blog Image"/>
-                <div className="card-body">
-                    <h4 className="card-title post-heading">{props.title}</h4>
-                </div>
+            <div 
+                className="card mb-3 me-3 flex-fill" 
+                style={{width:"400px"}} 
+                onClick={() => {
+                    redirect(`/posts/${props.id}`)}
+                    }>
+                    <img src={articleImage} alt="Blog Image"/>
+                    <div className="card-body">
+                        <Link to={`/posts/${props.id}`} className="text-dark">
+                            <h4 className="card-title post-heading">{props.title}</h4>
+                        </Link>
+                    </div>
             </div>
         </div>
     )
@@ -50,14 +57,12 @@ export default function Home() {
     };
 
     return (
-            <>
-                <div className="container my-5">
-                    <div className="row">    
-                            {subset.map(post => <Post id={post.id} key={post.id} title={post.title} body={post.body}/>)}
-                    </div>
+            <div className="container my-5">
+                <div className="row">    
+                    {subset.map(post => <PostBox id={post.id} key={post.id} title={post.title} body={post.body}/>)}
                 </div>
                 
-            <div className="d-flex justify-content-center align-items-center">
+                <div className="d-flex justify-content-center align-items-center">
                     <ReactPaginate
                         containerClassName="pagination pagination-lg"
                         activeClassName="active"
@@ -75,7 +80,7 @@ export default function Home() {
                         forcePage={currentPage} 
                     />
                 </div>
-            </>
+            </div>
         )
 }
 

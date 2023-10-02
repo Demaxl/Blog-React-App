@@ -1,3 +1,11 @@
 .post-heading {
   text-transform: capitalize;
+}
+
+.comment {
+  margin-bottom: 20px;
+}
+
+.reply {
+  margin-left: 20px;
 }/*# sourceMappingURL=styles.css.map */
